@@ -4,7 +4,7 @@ using KanDo_REST_API.Security;
 
 namespace KanDo_REST_API.Data.Services
 {
-    public class BoardServices:IBoardServices
+    public class BoardServices : IBoardServices
     {
         private readonly IDataProvider provider;
         private readonly ILogger<BoardServices> logger;
@@ -34,7 +34,7 @@ namespace KanDo_REST_API.Data.Services
                 access.boardid = board.id;
 
                 var insertaccess = await provider.Insert(Constants.Tables.usertable.ToString(), access);
-                if(insertaccess < 1)
+                if (insertaccess < 1)
                 {
                     logger.LogError("Error while updating the access");
                     await provider.Delete(Constants.Tables.boards.ToString(), board.id);
@@ -116,7 +116,7 @@ namespace KanDo_REST_API.Data.Services
                 logger.LogError("No Boards Available");
                 return null;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.Message);
                 return null;
@@ -132,7 +132,7 @@ namespace KanDo_REST_API.Data.Services
                 var isAccessed = false;
                 foreach (var b in accessedBoards)
                 {
-                    if( b.boardid == boardId)
+                    if (b.boardid == boardId)
                     {
                         isAccessed = true;
                     }
@@ -145,7 +145,7 @@ namespace KanDo_REST_API.Data.Services
                 logger.LogError("Error While Fetching the Board");
                 return null;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.Message);
                 return null;

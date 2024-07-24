@@ -8,7 +8,7 @@ using System.Text;
 
 namespace KanDo_REST_API.Data.Services
 {
-    public class UserServices:IUserServices
+    public class UserServices : IUserServices
     {
         private readonly IDataProvider provider;
         private readonly ILogger<UserServices> logger;
@@ -26,13 +26,13 @@ namespace KanDo_REST_API.Data.Services
             {
                 var existingUsername = await provider.GetAllByCondition<Users>(Constants.Tables.users.ToString(), new Users { username = user.username });
                 var existingPhone = await provider.GetAllByCondition<Users>(Constants.Tables.users.ToString(), new Users { phone = user.phone });
-                if(existingUsername.Count() > 0 || existingPhone.Count() > 0)
+                if (existingUsername.Count() > 0 || existingPhone.Count() > 0)
                 {
                     logger.LogError("Username or phone already exists");
                     return false;
                 }
                 var existing = await provider.GetAllByCondition<Users>(Constants.Tables.users.ToString(), new Users { email = user.email, phone = user.phone });
-                if(existing.Count() > 0)
+                if (existing.Count() > 0)
                 {
                     logger.LogError("user already exists");
                     return false;
@@ -40,7 +40,7 @@ namespace KanDo_REST_API.Data.Services
                 user.id = Constants.GenerateId();
                 user.password = PasswordHasher.HashPassword(user.password);
                 var insert = await provider.Insert(Constants.Tables.users.ToString(), user);
-                if(insert < 1)
+                if (insert < 1)
                 {
                     logger.LogError("Something went wrong while registering");
                     return false;
@@ -59,7 +59,7 @@ namespace KanDo_REST_API.Data.Services
             try
             {
                 var existing = await provider.GetAllByCondition<Users>(Constants.Tables.users.ToString(), new Users { email = user.email });
-                if(existing.Count() == 0)
+                if (existing.Count() == 0)
                 {
                     logger.LogInformation("no user found");
                     return null;
@@ -73,7 +73,7 @@ namespace KanDo_REST_API.Data.Services
                 logger.LogError("wrong password");
                 return null;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.Message);
                 return null;
