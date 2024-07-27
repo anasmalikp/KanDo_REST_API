@@ -97,5 +97,24 @@ namespace KanDo_REST_API.Data.Services
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        public async Task<IEnumerable<Users>> GetAllUsers()
+        {
+            try
+            {
+                var users = await provider.GetAll<Users>(Constants.Tables.users.ToString());
+                if(users == null)
+                {
+                    logger.LogError("fetching users failed");
+                    return null;
+                }
+                return users;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return null;
+            }
+        }
     }
 }

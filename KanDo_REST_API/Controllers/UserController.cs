@@ -36,5 +36,16 @@ namespace KanDo_REST_API.Controllers
             }
             return Ok(new { Token = response });
         }
-    }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUsers()
+        {
+            var response = await services.GetAllUsers();
+            if(response == null)
+            {
+                return BadRequest();
+            }
+            return Ok(response);
+        }
+    }delegate.
 }
