@@ -71,6 +71,7 @@ namespace KanDo_REST_API.Data.Services
                         logger.LogError("Error while approving the access");
                         return false;
                     }
+                    var del = await provider.Delete(Constants.Tables.request.ToString(), req.id);
                     return true;
                 }
                 else
