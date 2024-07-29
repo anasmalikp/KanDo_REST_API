@@ -47,5 +47,5 @@ namespace KanDo_REST_API.Controllers
             }
             return Ok(response);
         }
-    }delegate.
+    }
 }
