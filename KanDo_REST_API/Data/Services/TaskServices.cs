@@ -34,5 +34,56 @@ namespace KanDo_REST_API.Data.Services
                 return null;
             }
         }
+
+        public async Task<bool> NewTaskStatus(Models.TaskStatus newStat)
+        {
+            try
+            {
+                var board = await provider.GetByID<Boards>(Constants.Tables.boards.ToString(), newStat.boardid);
+                if(board == null)
+                {
+                    logger.LogError("wrong Board Id");
+                    return false;
+                }
+                newStat.id = Constants.GenerateId();
+                var insert = await provider.Insert(Constants.Tables.taskstatus.ToString(), newStat);
+                if(insert < 1)
+                {
+                    logger.LogError("Adding new Tast Status failed");
+                    return false;
+                }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> EditTaskStatus(Models.TaskStatus status)
+        {
+            try
+            {
+                var statusToEdit = await provider.GetByID<Models.TaskStatus>(Constants.Tables.taskstatus.ToString(), status.id);
+                if(statusToEdit == null)
+                {
+                    logger.LogError("TaskStatus doesn't Exists");
+                    return false;
+                }
+                var update = await provider.Update(Constants.Tables.taskstatus.ToString(), status);
+                if(update < 1)
+                {
+                    logger.LogError("Editing Status failed");
+                    return false;
+                }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return false;
+            }
+        }
     }
 }
